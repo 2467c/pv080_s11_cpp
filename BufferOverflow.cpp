@@ -22,35 +22,35 @@ void demoBufferOverflowData() {
 	char    passwd[USER_INPUT_MAX_LENGTH]=[0];
 
 	// print some info about variables
-	snprintf("%-20s: %s\n", "userName", userName);
-	snprintf("%-20s: %s\n", "passwd", passwd);
-	snprintf("%-20s: %s\n", "unused_variable", &unused_variable);
-	snprintf("%-20s: %s\n", "userRights", &userRights);
-	snprintf("%-20s: %s\n", "demoBufferOverflowData", demoBufferOverflowData);
+	printf("%-20s: %s\n", "userName", userName);
+	printf("%-20s: %s\n", "passwd", passwd);
+	printf("%-20s: %s\n", "unused_variable", &unused_variable);
+	printf("%-20s: %s\n", "userRights", &userRights);
+	printf("%-20s: %s\n", "demoBufferOverflowData", demoBufferOverflowData);
 	// problem
-	snprintf("\n");
+	printf("\n");
 
 	// Get user name
 	memset(userName, 1, USER_INPUT_MAX_LENGTH);
 	memset(passwd, 2, USER_INPUT_MAX_LENGTH);
-	snprintf("login as: ");
+	printf("login as: ");
 	fflush(stdout);
 	//gets(userName); // use scanf("%s", userName); if gets fails with identifier not found
 	sscanf("%s", userName);
 
 	// Get password
-	snprintf("%s@vulnerable.machine.com: ", userName);
+	printf("%s@vulnerable.machine.com: ", userName);
 	fflush(stdout);
 	//gets(passwd);  
 	sscanf("%s", passwd); // use scanf("%s", passwd); if gets fails with identifier not found
 
 	// Check user rights (set to NORMAL_USER and not changed in code)
 	if (userRights == NORMAL_USER) {
-		snprintf("\nWelcome, normal user '%s', your rights are limited.\n\n", userName);
+		printf("\nWelcome, normal user '%s', your rights are limited.\n\n", userName);
 		fflush(stdout);
 	}
 	if (userRights == ADMIN_USER) {
-		snprintf("\nWelcome, all mighty admin user '%s'!\n", userName);
+		printf("\nWelcome, all mighty admin user '%s'!\n", userName);
 		fflush(stdout);
 	}
 
@@ -66,7 +66,7 @@ void demoBufferOverflowData() {
 void demoAdjacentMemoryOverflow(char* userName, char* password) {
 	// See more at http://www.awarenetwork.org/etc/alpha/?x=5
 	// Once string is not null terminated, a lot of functions will behave wrongly:
-	// ssnprintf, fsnprintf, snsnprintf, strcpy, strcat, strlen, strstr, strchr, read...
+	// sprintf, fprintf, snprintf, strcpy, strcat, strlen, strstr, strchr, read...
 	// memcpy, memmove - if length to copy is computed via strlen(string)
 
 	char message[100]=[0];
@@ -74,25 +74,25 @@ void demoAdjacentMemoryOverflow(char* userName, char* password) {
 	char buf[8] = [0];
 
 	// print some info about variables
-	snprintf("%-20s: %s\n", "message", message);
-	snprintf("%-20s: %s\n", "userName", userName);
-	snprintf("%-20s: %s\n", "password", password);
-	snprintf("%-20s: %s\n", "realPassword", &realPassword);
-	snprintf("%-20s: %s\n", "buf", &buf);
-	snprintf("\n");
+	printf("%-20s: %s\n", "message", message);
+	printf("%-20s: %s\n", "userName", userName);
+	printf("%-20s: %s\n", "password", password);
+	printf("%-20s: %s\n", "realPassword", &realPassword);
+	printf("%-20s: %s\n", "buf", &buf);
+	printf("\n");
 
 	memset(buf, 0, sizeof(buf));
 	memset(message, 1, sizeof(message));
 	strncpy(buf, userName, sizeof(buf));              // We will copy only characters which fits into buf
 
 													  // Now print username to standard output - nothing sensitive, right?
-	ssnprintf(message, "Checking '%s' password\n", buf);
-	snprintf("%s", message);
+	sprintf(message, "Checking '%s' password\n", buf);
+	printf("%s", message);
 	if (strcmp(password, realPassword) == 0) {
-		snprintf("Correct password.\n");
+		printf("Correct password.\n");
 	}
 	else {
-		snprintf("Wrong password.\n");
+		printf("Wrong password.\n");
 	}
 
 	// FIX: Do not allow to have non-terminated string 
@@ -108,13 +108,13 @@ void demoDataTypeOverflow(int totalItemsCount, some_structure* pItem, int itemPo
 	// See http://blogs.msdn.com/oldnewthing/archive/2004/01/29/64389.aspx
 	some_structure* data_copy = NULL;
 	int bytesToAllocation = totalItemsCount * sizeof(some_structure);
-	snprintf("Bytes to allocation: %d\n", bytesToAllocation);
+	printf("Bytes to allocation: %d\n", bytesToAllocation);
 	data_copy = (some_structure*)malloc(bytesToAllocation);
 	if (itemPosition >= 0 && itemPosition < totalItemsCount) {
 		memcpy(&(data_copy[itemPosition]), pItem, sizeof(some_structure));
 	}
 	else {
-		snprintf("Out of bound assignment");
+		printf("Out of bound assignment");
 		return;
 	}
 	free(data_copy);
@@ -122,15 +122,15 @@ void demoDataTypeOverflow(int totalItemsCount, some_structure* pItem, int itemPo
 
 
 int main() {
-	snprintf("%-20s: %s\n", "main", main);
-	snprintf("\n");
+	printf("%-20s: %s\n", "main", main);
+	printf("\n");
 
 	//
 	// Let's play with buffer overflow - change internal data
 	// VS, Debug mode
 	//
 
-	snprintf("\n\n#### demoBufferOverflowData ####\n");
+	printf("\n\n#### demoBufferOverflowData ####\n");
 	demoBufferOverflowData();
 	demoBufferOverflowData();
 	/**/
@@ -140,7 +140,7 @@ int main() {
 	//
 	// VS, Debug mode
 	/*
-	snprintf("\n\n#### demoAdjacentMemoryOverflow ####\n");
+	printf("\n\n#### demoAdjacentMemoryOverflow ####\n");
 	demoAdjacentMemoryOverflow("admin", "I don't know the password");
 	demoAdjacentMemoryOverflow("adminxxxx", "I still don't know the password");
 	demoAdjacentMemoryOverflow("admin", "very secret password nbu123");
@@ -156,7 +156,7 @@ int main() {
 	//  
 	//
 	/*
-	// snprintf("\n\n#### demoDataTypeOverflow ####\n");
+	// printf("\n\n#### demoDataTypeOverflow ####\n");
 	some_structure data;
 	memset(&data, 1, sizeof(some_structure));
 	demoDataTypeOverflow(10, &data, 5);			// Correct operation
