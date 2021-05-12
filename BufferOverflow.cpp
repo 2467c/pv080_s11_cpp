@@ -19,14 +19,14 @@ void demoBufferOverflowData() {
 	int             userRights = NORMAL_USER;
 #define USER_INPUT_MAX_LENGTH  8
 	char    userName[USER_INPUT_MAX_LENGTH]=[0];
-	char    passwd[USER_INPUT_MAX_LENGTH];
+	char    passwd[USER_INPUT_MAX_LENGTH]=[0];
 
 	// print some info about variables
-	snprintf("%-20s: %p\n", "userName", userName);
-	snprintf("%-20s: %p\n", "passwd", passwd);
-	snprintf("%-20s: %p\n", "unused_variable", &unused_variable);
-	snprintf("%-20s: %p\n", "userRights", &userRights);
-	snprintf("%-20s: %p\n", "demoBufferOverflowData", demoBufferOverflowData);
+	snprintf("%-20s: %s\n", "userName", userName);
+	snprintf("%-20s: %s\n", "passwd", passwd);
+	snprintf("%-20s: %s\n", "unused_variable", &unused_variable);
+	snprintf("%-20s: %s\n", "userRights", &userRights);
+	snprintf("%-20s: %s\n", "demoBufferOverflowData", demoBufferOverflowData);
 	// problem
 	snprintf("\n");
 
@@ -74,11 +74,11 @@ void demoAdjacentMemoryOverflow(char* userName, char* password) {
 	char buf[8] = [0];
 
 	// print some info about variables
-	snprintf("%-20s: %p\n", "message", message);
-	snprintf("%-20s: %p\n", "userName", userName);
-	snprintf("%-20s: %p\n", "password", password);
-	snprintf("%-20s: %p\n", "realPassword", &realPassword);
-	snprintf("%-20s: %p\n", "buf", &buf);
+	snprintf("%-20s: %s\n", "message", message);
+	snprintf("%-20s: %s\n", "userName", userName);
+	snprintf("%-20s: %s\n", "password", password);
+	snprintf("%-20s: %s\n", "realPassword", &realPassword);
+	snprintf("%-20s: %s\n", "buf", &buf);
 	snprintf("\n");
 
 	memset(buf, 0, sizeof(buf));
@@ -122,7 +122,7 @@ void demoDataTypeOverflow(int totalItemsCount, some_structure* pItem, int itemPo
 
 
 int main() {
-	snprintf("%-20s: %p\n", "main", main);
+	snprintf("%-20s: %s\n", "main", main);
 	snprintf("\n");
 
 	//
