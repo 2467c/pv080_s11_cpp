@@ -18,7 +18,7 @@ void demoBufferOverflowData() {
 #define ADMIN_USER             'a'
 	int             userRights = NORMAL_USER;
 #define USER_INPUT_MAX_LENGTH  8
-	char    userName[USER_INPUT_MAX_LENGTH];
+	char    userName[USER_INPUT_MAX_LENGTH]=[0];
 	char    passwd[USER_INPUT_MAX_LENGTH];
 
 	// print some info about variables
@@ -69,9 +69,9 @@ void demoAdjacentMemoryOverflow(char* userName, char* password) {
 	// ssnprintf, fsnprintf, snsnprintf, strcpy, strcat, strlen, strstr, strchr, read...
 	// memcpy, memmove - if length to copy is computed via strlen(string)
 
-	char message[100];
+	char message[100]=[0];
 	char realPassword[] = "very secret password nbusr123";
-	char buf[8];
+	char buf[8] = [0];
 
 	// print some info about variables
 	snprintf("%-20s: %p\n", "message", message);
